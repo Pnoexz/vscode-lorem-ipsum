@@ -24,6 +24,7 @@
   ],
   "activationEvents": [
     "onCommand:lorem-ipsum.line",
+    "onCommand:lorem-ipsum.name",
     "onCommand:lorem-ipsum.paragraph",
     "onCommand:lorem-ipsum.multipleParagraphs"
   ],
@@ -33,6 +34,10 @@
       {
         "command": "lorem-ipsum.line",
         "title": "Lorem Ipsum: Insert a line"
+      },
+      {
+        "command": "lorem-ipsum.name",
+        "title": "Lorem Ipsum: Insert a name"
       },
       {
         "command": "lorem-ipsum.paragraph",

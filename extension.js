@@ -4,6 +4,7 @@ var loremIpsum = require('lorem-ipsum');
 function activate(context) {
   var commands = [
     vscode.commands.registerCommand('lorem-ipsum.line', generateLine),
+    vscode.commands.registerCommand('lorem-ipsum.name', generateName),
     vscode.commands.registerCommand('lorem-ipsum.paragraph', generateParagraph),
     vscode.commands.registerCommand('lorem-ipsum.multipleParagraphs', generateMultipleParagraphs)
   ];
@@ -13,13 +14,21 @@ function activate(context) {
   });
 }
 
-function insertText(lorem) {
+function insertText(lorem, format) {
   var editor = vscode.window.activeTextEditor;
+  var textToInsert = loremIpsum(lorem);
+
+  switch (format) {
+    case 'capitalize':
+      textToInsert = capitalize(textToInsert);
+      break;
+  }
+
   editor.edit(
     edit => editor.selections.forEach(
       selection => {
         edit.delete(selection);
-        edit.insert(selection.start, loremIpsum(lorem));
+        edit.insert(selection.start, textToInsert);
       }
     )
   );
@@ -32,10 +41,23 @@ function generateLine() {
   });
 }
 
+function generateName() {
+  insertText({
+    count: 2,
+    units: 'words'
+  }, 'capitalize');
+}
+
 function generateParagraph() {
   insertText({
     count: 1,
     units: 'paragraphs'
+  });
+}
+
+function capitalize(str) {
+  return str.replace(/\w\S*/g, function(txt){
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 }
 
